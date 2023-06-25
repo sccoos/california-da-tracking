@@ -19,18 +19,17 @@ body, label, input, button, select {
 }
 h1, h2, h3, h4 { font-weight: 400; }
 
+#news {
+  overflow: scroll;
+}
+
 
 #attribution {
-  font-size: 8px;
+  font-size: 6px;
 }
 
 #sample-label {
   text-align: center;
-}
-
-
-html,body{
-    height: 100%;
 }
 
 iframe{
@@ -58,7 +57,7 @@ iframe{
 #cite {
   position: absolute;
   bottom: 10px;
-  left: 10px;
+  left: 100px;
   font-size: 12px;
 }
 
