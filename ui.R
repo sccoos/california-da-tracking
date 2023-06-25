@@ -1,7 +1,8 @@
 library(leaflet)
 library(shinyWidgets)
+library(lubridate)
 
-todaysDate = now(tzone = "EST") - hours(11)
+todaysDate = lubridate::now(tzone = "EST") - lubridate::hours(11)
 
 ui = dashboardPage( skin = "blue",
   dashboardHeader(title = "California Domoic Acid Forecasting and Marine Mammal Stranding Tool", titleWidth = "700px"),
