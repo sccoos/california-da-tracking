@@ -10,11 +10,6 @@ source("addLegend_decreasing.R")
 
 function(input, output, session) {
   
-  # sample_labels <- sprintf(
-  #   "<div id = 'sample-label'><strong>%s</strong><br/>(Click to expand detailed view)</div>",
-  #   sampling$project_module) %>%
-  #   lapply(htmltools::HTML)
-  
   ## Interactive Map ###########################################
   
   pda_day = list()
@@ -23,9 +18,18 @@ function(input, output, session) {
   pda_day["2"] = raster::raster(here("data", "current_forecast", "forecast_day_2.tif"))
   
   center_reports = read_csv(here("data", "Stranding_Center_Reports_2023-06.csv"))
+  counties = read_csv(here("data", "stranding_regions", "zone_counties.csv"))
+  
   total_cases_by_zone = center_reports %>% group_by(zone) %>% summarize(total_cases = sum(stranding_cases, na.rm=T))
   
-  stranding_regions <- read_sf(here("data", "stranding_regions", "stranding_regions.shp")) %>% left_join(total_cases_by_zone, c("OBJECTID"="zone"))
+  stranding_regions <- read_sf(here("data", "stranding_regions", "stranding_regions.shp")) %>%
+    left_join(total_cases_by_zone, c("OBJECTID"="zone")) %>%
+    left_join(counties, c("OBJECTID"="zone"))
+  
+  region_labels <- sprintf(
+    "<div id = 'sample-label'><h3>%s</h3><h5>Total DA Cases Reported: %s</h5>(Click for more information.)</div>",
+    stranding_regions$county_names, stranding_regions$total_cases) %>%
+    lapply(htmltools::HTML)
   
   rainbow = c("purple", "blue", "cyan", "green", "yellow", "orange", "red", "darkred")
   cols = colorNumeric(
@@ -71,6 +75,7 @@ function(input, output, session) {
         opacity = 1,
         weight = 2,
         layerId = ~OBJECTID,
+        label = ~region_labels,
         popup = buildStrandingPopups(stranding_regions$OBJECTID),
         highlightOptions = highlightOptions(color = "white", weight = 4,bringToFront = TRUE)
       ) %>% 
@@ -174,7 +179,7 @@ function(input, output, session) {
   shinyalert(
     html = T,
     title = "June 2023 California Domoic Acid Stranding Event",
-    text = "This tool is intended to display the latest forecast of Domoic Acid, showcase information for regional stranding centers, and where available, provide an up to date look at the marine mammal stranding counts across the California coast.<hr>To learn more about Domoic Acid toxicosis, go to <a href='https://www.cimwi.org/domoic-acid' target='_blank'>https://www.cimwi.org/domoic-acid</a>.<hr><a href='https://www.fisheries.noaa.gov/s3/2023-04/stranding-network-california-2023.pdf' target='_blank'>The full California stranding network map is available here.</a>",
+    text = "This tool is intended to display domoic acid event risk, and allow users to click around the coastal stranding regions for detailed information on local stranding centers and their outlook of marine mammal strandings throughout this event.<hr>To learn more about domoic acid toxicosis, go to <a href='https://www.cimwi.org/domoic-acid' target='_blank'>https://www.cimwi.org/domoic-acid</a>.<hr><a href='https://www.fisheries.noaa.gov/s3/2023-04/stranding-network-california-2023.pdf' target='_blank'>The full California stranding network map is available here.</a>",
     type = "",
     size = "m",
     imageUrl = "https://sccoos.org/wp-content/uploads/2022/05/SCCOOS_logo-01.png", #https://s2020.s3.amazonaws.com/media/logo-scripps-ucsd-dark.png", #

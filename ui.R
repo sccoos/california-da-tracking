@@ -27,7 +27,7 @@ ui = dashboardPage( skin = "blue",
                           width = 330, height = "auto",
                           
                           h3("C-HARM v3, 3-day Forecast:\nParticulate Domoic Acid"),
-                          em("Particulate Domoic Acid (pDA) is the measurement of total Domoic Acid toxin that is potentially extant in a given area. This forecast provides a probability for where that concentration of toxin is predicted to exceed the threshold that classifies a Harmful Algal Bloom (greater than 500 nanogramsper liter)."),
+                          em("Particulate domoic acid (pDA) is the measurement of total domoic acid toxin that is potentially extant in a given area. This forecast provides a probability for where that concentration of toxin is predicted to exceed the threshold that classifies a Harmful Algal Bloom (greater than 500 nanogramsper liter)."),
                           
                           hr(),
                           
@@ -36,8 +36,8 @@ ui = dashboardPage( skin = "blue",
                             label = "Forecast Date",
                             choiceNames = c(
                               paste(month(today(), label = TRUE, abbr = FALSE), mday(todaysDate)), 
-                              paste(month(today(), label = TRUE, abbr = FALSE), mday(todaysDate+days(1))),
-                              paste(month(today(), label = TRUE, abbr = FALSE), mday(todaysDate+days(2)))
+                              paste(month(todaysDate+days(1), label = TRUE, abbr = FALSE), mday(todaysDate+days(1))),
+                              paste(month(todaysDate+days(2), label = TRUE, abbr = FALSE), mday(todaysDate+days(2)))
                             ), choiceValues = c(0, 1, 2),
                             selected = 0,
                             justified = TRUE
@@ -58,6 +58,15 @@ ui = dashboardPage( skin = "blue",
              box(id = "news", title = "Recent News", collapsible = T, collapsed = T, width = "100%",
                  box(
                    title = a(
+                     "Mammals getting sick due to toxic algae along California coast",
+                     href= "https://www.foxweather.com/watch/play-67b1e62aa000a01",
+                     target="_blank"
+                   ),
+                   "June 27 - Fox Weather",
+                   width = NULL
+                 ),
+                 box(
+                   title = a(
                      "Sea lions suffering seizures and dying on Orange County beaches due to neurotoxin-producing algae bloom",
                      href= "https://www.latimes.com/socal/daily-pilot/news/story/2023-06-22/sea-lions-suffering-seizures-and-dying-on-orange-county-beaches-due-to-neurotoxin-producing-algae-bloom",
                      target="_blank"
@@ -72,6 +81,15 @@ ui = dashboardPage( skin = "blue",
                      target="_blank"
                     ),
                    "June 22 - CNN",
+                   width = NULL
+                 ),
+                 box(
+                   title = a(
+                     "Over 1,000 sea lions, dolphins are getting sick and dying as toxic bloom off coast expands",
+                     href= "https://www.ocregister.com/2023/06/21/sea-lions-dolphins-are-getting-sick-and-dying-as-toxic-bloom-off-coast-expands/",
+                     target="_blank"
+                   ),
+                   "June 21 - Orange County Register",
                    width = NULL
                  ),
                  box(

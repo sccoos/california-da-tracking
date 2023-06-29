@@ -16,7 +16,7 @@ for (i in seq(1:3)) {
   src = tidync(dt_file)
   
   # read raster from .nc and transform long to -180/180 from 0/360
-  pda_raster = raster::raster(nc_file, varname = "particulate_domoic") %>% rotate() %>% projectRaster(crs  = "+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs")
+  pda_raster = raster::raster(dt_file, varname = "particulate_domoic") %>% rotate() %>% projectRaster(crs  = "+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs")
   
   # write raster as .tif
   raster::writeRaster(pda_raster, here("data", "current_forecast", paste0("forecast_day_",fday,".tif")), format="GTiff", overwrite = T)
